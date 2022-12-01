@@ -1,0 +1,158 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #2d3641;
+    overflow-x: hidden;
+}
+
+/* ----------------Nav bar --------------*/
+nav{
+    width: 100vw;
+    height: 50px;
+    background-color: #2b2e32;
+    z-index: 1;
+    font-family: 'Silkscreen', monospace;
+}
+#logo{
+    width: 130px;
+    height: 50px;
+    padding: 5px 10px;
+}
+.nav-container{
+    display: flex;
+    position: absolute;
+    top: 0;
+    width: fit-content;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: space-around;
+    align-items: center;
+}
+.nav-item{
+    padding: 5px 40px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    height: 50px;
+    transition: all 0.4s ease;
+}
+.nav-item:hover{
+    background-color: rgb(46, 69, 69);
+}
+.nav-item a{
+    text-decoration: none;
+    color: lightslategray;
+}
+.active{
+    background-color:#2d3641;
+    box-shadow: inset 0 0 3px grey;
+    border-left: 1px solid cadetblue;
+    border-right: 1px solid cadetblue;
+}
+
+/*----------------Main Game Div------------*/
+#game{
+    position: relative;
+    height: 100%;
+    width: fit-content;
+    left: 50%;
+    height: calc(100vh - 50px);
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px  grey;
+    background-color: #2b2e32;
+}
+
+canvas {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 100%;
+    max-height: 100%;
+}
+#canvas-bg{
+    position: absolute;
+}
+#canvas-main{
+    position: relative;
+}
+ /* ------------- Buttons ---------*/
+#pause-button {
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+    font-family: 'Silkscreen', monospace;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    visibility: hidden;
+}
+#pause-button:hover{
+    background-color: gainsboro;
+}
+
+.ingame-button{
+    padding: 5px 10px;
+    font-size: 2em;
+    font-family: 'Silkscreen', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+}
+.ingame-button:hover{
+    background-color: gainsboro;
+}
+#exit {
+    display: none;
+}
+
+/* ---------------------Info --------------*/
+#info{
+    font-family: 'VT323', monospace;
+    color: white;
+}
+.info-head{
+    padding: 0 10px;
+    font-size: 2rem;
+}
+.controls {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.action {
+    padding: 10px;
+    margin-left: 20px;
+    font-size: 1.8rem;
+}
+#arrows{
+    width: 50px;
+    margin-right: 20px;
+}
+#space{
+    width: 100px;
+    margin-right: 20px;
+}
+#zKey {
+    width: 30px;
+    margin-right: 20px;
+}
+
+.desc-head {
+    padding: 5px 10px;
+    font-size: 2rem;
+}
+.desc{
+    padding-left: 10px;
+    font-size: 1.5rem;
+}
