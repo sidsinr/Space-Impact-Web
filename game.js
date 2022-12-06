@@ -60,6 +60,7 @@ class InputHandler {
     constructor(level) {
         this.level = level;
         window.addEventListener("keydown", (e) => {
+            e.preventDefault();  //prevents the page scrolling
             if (gameOver || !level.active || gamePause) return;
             switch (e.key) {
                 case "ArrowLeft":
