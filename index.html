@@ -15,11 +15,6 @@
 <body>
     <nav>
         <img src="./img/logo.png" alt="logo" id="logo">
-        <div class="nav-container">
-            <div class="nav-item active"><a href="#">Game</a></div>
-            <div class="nav-item"><a href="#">LeaderBoard</a></div>
-            <div class="nav-item"><a href="#">About</a></div>
-        </div>
     </nav>
     <div id="game">
         <canvas id="canvas-bg">Your browswer doesn't support HTML Canvas</canvas>
@@ -27,23 +22,63 @@
         <button id="pause-button">Pause</button>
         <button class="ingame-button" id="play">Play</button>
         <button class="ingame-button" id="exit">Exit</button>
-
-        <div id="info">
-            <h2 class="info-head">Controls:</h3>
+    </div>
+    <div class="toggle-container">
+        <span>On-screen Buttons:</span>
+        <div class="toggle">
+            <div class="toggle-ball"></div>
+        </div>
+    </div>
+    <div id="info">
+        <h2 class="info-head">Controls:</h3>
             <div class="controls">
-                <div class="action">Move:</div>
-                <img id="arrows" src="./img/arrowKeys.png" alt="arrow keys">
-                <div class="action">Fire:</div>
-                <img id="space" src="./img/spacebar.png" alt="spacebar">
-                <div class="action">Special:</div>
-                <img id="xKey" src="./img/special.png" alt="X key">
+                <div class="control-wrapper">
+                    <div class="action">Move:</div>
+                    <img id="arrows" src="./img/arrowKeys.png" alt="arrow keys">
+                </div>
+                <div class="control-wrapper">
+                    <div class="action">Fire:</div>
+                    <img id="space" src="./img/spacebar.png" alt="spacebar">
+                </div>
+                <div class="control-wrapper">
+                    <div class="action">Special:</div>
+                    <img id="xKey" src="./img/special.png" alt="X key">
+                </div>
             </div>
             <h2 class="desc-head">Description:</h2>
             <p class="desc">Shoot down the enemy ships and survive all 8 levels.</p>
-        </div>
     </div>
-    
+    <div class="buttons-onscreen">
+        <button type="button" id="button-left" class="button"><img src="./img/buttonLeft.png" alt=""></button>
+        <button type="button" id="button-up" class="button"><img src="./img/buttonUp.png" alt=""></button>
+        <button type="button" id="button-right" class="button"><img src="./img/buttonRight.png" alt=""></button>
+        <button type="button" id="button-down" class="button"><img src="./img/buttonDown.png" alt=""></button>
+        <button type="button" id="button-fire" class="button"><img src="./img/buttonFire.png" alt=""></button>
+        <button type="button" id="button-x" class="button"><img src="./img/buttonX.png" alt=""></button>
+    </div>
+
+    <script>
+        const toggleBar = document.querySelector(".toggle");
+        const toggleBall = document.querySelector(".toggle-ball");
+        const buttons = document.querySelector(".buttons-onscreen");
+        const info = document.querySelector("#info");
+        let flag = false;
+        toggleBar.addEventListener("click", () => {
+            toggleBar.classList.toggle("toggle-on");
+            toggleBall.classList.toggle("toggle-ball-on");
+            flag = !flag;
+            if (flag) {
+                buttons.style.display = "inline-block";
+                info.style.display = "none";
+            } else {
+                buttons.style.display = "none";
+                info.style.display = "inline-block";
+            }
+        });
+    </script>
+
     <script src="game.js"></script>
+
 </body>
 
 </html>
