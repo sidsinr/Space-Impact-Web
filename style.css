@@ -10,59 +10,22 @@ body{
 
 /* ----------------Nav bar --------------*/
 nav{
-    width: 100vw;
+    width: 100%;
     height: 50px;
     background-color: #2b2e32;
-    z-index: 1;
-    font-family: 'Silkscreen', monospace;
 }
 #logo{
     width: 130px;
     height: 50px;
     padding: 5px 10px;
 }
-.nav-container{
-    display: flex;
-    position: absolute;
-    top: 0;
-    width: fit-content;
-    height: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    justify-content: space-around;
-    align-items: center;
-}
-.nav-item{
-    padding: 5px 40px;
-    font-size: 1.8rem;
-    cursor: pointer;
-    height: 50px;
-    transition: all 0.4s ease;
-}
-.nav-item:hover{
-    background-color: rgb(46, 69, 69);
-}
-.nav-item a{
-    text-decoration: none;
-    color: lightslategray;
-}
-.active{
-    background-color:#2d3641;
-    box-shadow: inset 0 0 3px grey;
-    border-left: 1px solid cadetblue;
-    border-right: 1px solid cadetblue;
-}
 
 /*----------------Main Game Div------------*/
 #game{
     position: relative;
-    height: 100%;
-    width: fit-content;
-    left: 50%;
-    height: calc(100vh - 50px);
-    transform: translateX(-50%);
-    box-shadow: 0 2px 4px  grey;
-    background-color: #2b2e32;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
 canvas {
@@ -118,6 +81,10 @@ canvas {
 #info{
     font-family: 'VT323', monospace;
     color: white;
+    position: relative;
+    left: calc(50% - 420px);
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
 }
 .info-head{
     padding: 0 10px;
@@ -126,26 +93,26 @@ canvas {
 .controls {
     display: flex;
     align-items: center;
-    width: 100%;
     justify-content: center;
-    align-items: center;
+    gap: 30px;
 }
 .action {
     padding: 10px;
     margin-left: 20px;
     font-size: 1.8rem;
 }
+.control-wrapper{
+    display:flex;
+    align-items: center;
+}
 #arrows{
     width: 50px;
-    margin-right: 20px;
 }
 #space{
     width: 100px;
-    margin-right: 20px;
 }
 #xKey {
     width: 30px;
-    margin-right: 20px;
 }
 
 .desc-head {
@@ -155,4 +122,134 @@ canvas {
 .desc{
     padding-left: 10px;
     font-size: 1.5rem;
+}
+
+/*-------------toggle-------------*/
+.toggle-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: 'VT323', monospace;
+    margin: 10px 0px;
+}
+.toggle{
+    width: 40px;
+    height: 15px;
+    border-radius: 10px;
+    background-color: lightgray;
+    cursor: pointer;
+    position: relative;
+}
+.toggle-ball{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: gray;
+    position: absolute;
+    top: -2.5px;
+    transition: all 0.3s ease-in-out;
+}
+.toggle-on{
+    background-color: gold;
+}
+.toggle-ball-on{
+    background-color: goldenrod;
+    transform: translateX(20px);
+}
+
+/*----------- Onscreen Buttons ------------*/
+.buttons-onscreen{
+    display: none;
+}
+
+.button{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.button img{
+    width: 60px;
+    height: 60px;
+}
+
+#button-left{
+    position: absolute;
+    left: 10px;
+    bottom: 120px;
+}
+#button-up{
+    position: absolute;
+    left: 70px;
+    bottom: 180px;
+}
+#button-right{
+    position: absolute;
+    left: 130px;
+    bottom: 120px;
+}
+#button-down{
+    position: absolute;
+    left: 70px;
+    bottom: 60px;
+}
+#button-fire{
+    position: absolute;
+    right: 70px;
+    bottom: 80px;
+}
+#button-x{
+    position: absolute;
+    right: 10px;
+    bottom: 150px;
+}
+
+
+/* ------------ RWD -----------*/
+@media only screen and (max-width:840px) {
+    #info{
+        left:0;
+    }
+}
+
+@media only screen and (max-width:600px ) {
+    .ingame-button{
+        font-size: 1em;
+        transform: translate(-50%, 30px);
+    }
+    .info{
+        width:100%;
+    }
+    .controls{
+        flex-direction: column;
+    }
+    .button img{
+        width: 50px;
+        height: 50px;
+    }
+
+    #button-left{
+        left: 10px;
+        bottom: 110px;
+    }
+    #button-up{
+        left: 60px;
+        bottom: 160px;
+    }
+    #button-right{
+        left: 110px;
+        bottom: 110px;
+    }
+    #button-down{
+        left: 60px;
+        bottom: 60px;
+    }
 }

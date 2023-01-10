@@ -8,6 +8,13 @@ mainCanvas.height = 480;
 bgCanvas.width = 840;
 bgCanvas.height = 480;
 
+const buttonUp = document.getElementById("button-up");
+const buttonDown = document.getElementById("button-down");
+const buttonLeft = document.getElementById("button-left");
+const buttonRight = document.getElementById("button-right");
+const buttonFire = document.getElementById("button-fire");
+const buttonX = document.getElementById("button-x");
+
 const mainSprites = new Image();
 mainSprites.src = "./img/gameSprites.png";
 const bossSprites = new Image();
@@ -59,6 +66,7 @@ let playerScore = 0;
 class InputHandler {
     constructor(level) {
         this.level = level;
+        // keyboard events
         window.addEventListener("keydown", (e) => {
             e.preventDefault();  //prevents the page scrolling
             if (gameOver || !level.active || gamePause) return;
@@ -95,7 +103,6 @@ class InputHandler {
                             }
                             specialCount--;
                         }
-
                         keys.x.pressed = true;
                     }
                     break;
@@ -124,6 +131,89 @@ class InputHandler {
                     break;
             }
         });
+
+        // onscreen-buttons events
+        buttonLeft.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowLeft.pressed = true;
+        })
+        buttonLeft.addEventListener("mouseup", ()=>{
+            keys.ArrowLeft.pressed = false;
+        })
+        buttonLeft.addEventListener("mouseout", ()=>{
+            keys.ArrowLeft.pressed = false;
+        })
+
+        buttonRight.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowRight.pressed = true;
+        })
+        buttonRight.addEventListener("mouseup", ()=>{
+            keys.ArrowRight.pressed = false;
+        })
+        buttonRight.addEventListener("mouseout", ()=>{
+            keys.ArrowRight.pressed = false;
+        })
+
+        buttonUp.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowUp.pressed = true;
+        })
+        buttonUp.addEventListener("mouseup", ()=>{
+            keys.ArrowUp.pressed = false;
+        })
+        buttonUp.addEventListener("mouseout", ()=>{
+            keys.ArrowUp.pressed = false;
+        })
+
+        buttonDown.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowDown.pressed = true;
+        })
+        buttonDown.addEventListener("mouseup", ()=>{
+            keys.ArrowDown.pressed = false;
+        })
+        buttonDown.addEventListener("mouseout", ()=>{
+            keys.ArrowDown.pressed = false;
+        })
+        // firing button events
+        buttonFire.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            if (!keys.space.pressed) {
+                this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                keys.space.pressed = true;
+            }
+        })
+        buttonFire.addEventListener("mouseup", ()=>{
+            keys.space.pressed = false;
+        })
+        buttonFire.addEventListener("mouseout", ()=>{
+            keys.space.pressed = false;
+        })
+
+        buttonX.addEventListener("mousedown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            if (!keys.x.pressed) {
+                if (specialCount > 0) {
+                    switch (specialAtttack) {
+                        case "missile": this.level.playerSpecial.push(new Missile(this.level));
+                            break;
+                        case "laser": this.level.playerSpecial.push(new Laser(this.level));
+                            break;
+                        case "wall": this.level.playerSpecial.push(new Wall(this.level));
+                            break;
+                    }
+                    specialCount--;
+                }
+                keys.x.pressed = true;
+            }
+        })
+        buttonX.addEventListener("mouseup", ()=>{
+            keys.x.pressed = false;
+        })
+        buttonX.addEventListener("mouseout", ()=>{
+            keys.x.pressed = false;
+        })
     }
 }
 // Hitbox class for player, background and boss
@@ -484,7 +574,7 @@ class Explosion {
         this.delete = false;
     }
     update() {
-        if (this.frames % this.staggeredFrames == 0) {
+        if (this.frames % this.staggeredFrames === 0) {
             this.frameX++;
             this.frames = 1;
         }
@@ -866,7 +956,7 @@ class Boss {
                     if (checkCollision(sp, e)) {
                         e.delete = true;
                         currentLevel.explosions.push(new Explosion(e.x, e.y));
-                        if (sp.specialType == "missile") sp.delete = true;
+                        if (sp.specialType === "missile") sp.delete = true;
                     }
                 });
                 // collision detection with player and shield
@@ -1136,7 +1226,7 @@ class Boss8 extends Boss {
                 if (checkCollision(sp, torp)) {
                     if (!sp.hit) {
                         sp.hit = true;
-                        if (sp.specialType == "missile") {
+                        if (sp.specialType === "missile") {
                             sp.delete = true;
                             torp.hp -= 30;
                         }
@@ -1169,7 +1259,7 @@ class Boss8 extends Boss {
                 if (checkCollision(sp, e)) {
                     e.delete = true;
                     currentLevel.explosions.push(new Explosion(e.x, e.y));
-                    if (sp.specialType == "missile") sp.delete = true;
+                    if (sp.specialType === "missile") sp.delete = true;
                 }
             });
             // collision detection with player and shield
@@ -1196,7 +1286,7 @@ class Boss8 extends Boss {
         if (this.x > this.xbreak && !this.retreat) this.x -= this.speedX;
 
         // Retreat when both the torpedoes are fired & dragonfly swarm
-        if (this.torpedoes.length == 0) {
+        if (this.torpedoes.length === 0) {
             if (this.retreatTimer > this.retreatInterval && !this.retreat) {
                 this.retreat = true;
                 this.retreatTimer = 0;
@@ -1595,7 +1685,7 @@ class Level {
                 if (enemy.isBoss) {         // for boss
                     enemy.hitbox.forEach(hb => {
                         if (checkCollision(hb, sp)) {
-                            if (sp.specialType == "missile") sp.delete = true;
+                            if (sp.specialType === "missile") sp.delete = true;
                             if (!hb.immune) {
                                 if (!sp.hit) {
                                     enemy.hp -= sp.damage;
@@ -1627,7 +1717,7 @@ class Level {
                                 enemy.delete = true;
                             }
                         }
-                        if (sp.specialType == "missile") sp.delete = true;
+                        if (sp.specialType === "missile") sp.delete = true;
                     }
                 }
             });
@@ -1636,12 +1726,12 @@ class Level {
             if (enemy.isPowerUp) {
                 if (checkCollision(enemy, this.player.hitbox)) {
                     enemy.delete = true;
-                    if (enemy.powerup == "life") {
-                        if (lives == maxLives) specialCount++;
+                    if (enemy.powerup === "life") {
+                        if (lives === maxLives) specialCount++;
                         else lives++;
                     }
-                    else if (specialAtttack == enemy.powerup) {
-                        if (specialAtttack == "wall") specialCount++;
+                    else if (specialAtttack === enemy.powerup) {
+                        if (specialAtttack === "wall") specialCount++;
                         else specialCount += 3;
                     }
                     else {
@@ -1716,7 +1806,7 @@ class Level {
                 }
             });
             // interaction with player 
-            if (checkCollision(this.player.hitbox, projectile)) {
+            if (!this.player.shieldOn && checkCollision(this.player.hitbox, projectile)) {
                 if (!this.player.hit && this.active) {
                     this.player.hit = true;
                     projectile.delete = true;
@@ -1771,7 +1861,7 @@ class Level {
             }
             //player crosses canvas width and next level
             if (this.player.x >= 840) {
-                if (this.number == 8) {
+                if (this.number === 8) {
                     gameOver = true;
                 }
                 else if (this.number != 4 && this.number != 5) {
@@ -1796,7 +1886,7 @@ class Level {
         if (lives > 0) setTimeout(() => { this.player = new Player(); }, 500);
         else setTimeout(() => {
             gameOver = true;
-        }, 1000);
+        }, 500);
     }
 }
 
