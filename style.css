@@ -122,6 +122,7 @@ canvas {
 .desc{
     padding-left: 10px;
     font-size: 1.5rem;
+    margin-bottm: 20px;
 }
 
 /*-------------toggle-------------*/
