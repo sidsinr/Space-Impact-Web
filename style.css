@@ -40,7 +40,7 @@ canvas {
 #canvas-main{
     position: relative;
 }
- /* ------------- Buttons ---------*/
+ /* ------------- Game-Buttons-pause and others ---------*/
 #pause-button {
     display: block;
     position: relative;

@@ -133,65 +133,65 @@ class InputHandler {
         });
 
         // onscreen-buttons events
-        buttonLeft.addEventListener("mousedown", ()=>{
+        buttonLeft.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowLeft.pressed = true;
         })
-        buttonLeft.addEventListener("mouseup", ()=>{
+        buttonLeft.addEventListener("pointerup", ()=>{
             keys.ArrowLeft.pressed = false;
         })
-        buttonLeft.addEventListener("mouseout", ()=>{
+        buttonLeft.addEventListener("pointerout", ()=>{
             keys.ArrowLeft.pressed = false;
         })
 
-        buttonRight.addEventListener("mousedown", ()=>{
+        buttonRight.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowRight.pressed = true;
         })
-        buttonRight.addEventListener("mouseup", ()=>{
+        buttonRight.addEventListener("pointerup", ()=>{
             keys.ArrowRight.pressed = false;
         })
-        buttonRight.addEventListener("mouseout", ()=>{
+        buttonRight.addEventListener("pointerout", ()=>{
             keys.ArrowRight.pressed = false;
         })
 
-        buttonUp.addEventListener("mousedown", ()=>{
+        buttonUp.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowUp.pressed = true;
         })
-        buttonUp.addEventListener("mouseup", ()=>{
+        buttonUp.addEventListener("pointerup", ()=>{
             keys.ArrowUp.pressed = false;
         })
-        buttonUp.addEventListener("mouseout", ()=>{
+        buttonUp.addEventListener("pointerout", ()=>{
             keys.ArrowUp.pressed = false;
         })
 
-        buttonDown.addEventListener("mousedown", ()=>{
+        buttonDown.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowDown.pressed = true;
         })
-        buttonDown.addEventListener("mouseup", ()=>{
+        buttonDown.addEventListener("pointerup", ()=>{
             keys.ArrowDown.pressed = false;
         })
-        buttonDown.addEventListener("mouseout", ()=>{
+        buttonDown.addEventListener("pointerout", ()=>{
             keys.ArrowDown.pressed = false;
         })
         // firing button events
-        buttonFire.addEventListener("mousedown", ()=>{
+        buttonFire.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             if (!keys.space.pressed) {
                 this.level.playerProjectiles.push(new Projectile(true, this.level.player));
                 keys.space.pressed = true;
             }
         })
-        buttonFire.addEventListener("mouseup", ()=>{
+        buttonFire.addEventListener("pointerup", ()=>{
             keys.space.pressed = false;
         })
-        buttonFire.addEventListener("mouseout", ()=>{
+        buttonFire.addEventListener("pointerout", ()=>{
             keys.space.pressed = false;
         })
 
-        buttonX.addEventListener("mousedown", ()=>{
+        buttonX.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             if (!keys.x.pressed) {
                 if (specialCount > 0) {
@@ -208,10 +208,10 @@ class InputHandler {
                 keys.x.pressed = true;
             }
         })
-        buttonX.addEventListener("mouseup", ()=>{
+        buttonX.addEventListener("pointerup", ()=>{
             keys.x.pressed = false;
         })
-        buttonX.addEventListener("mouseout", ()=>{
+        buttonX.addEventListener("pointerout", ()=>{
             keys.x.pressed = false;
         })
     }
