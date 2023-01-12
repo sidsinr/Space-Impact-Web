@@ -12,7 +12,7 @@ There is also an option to pause the game during the gameplay.
 The game is responsive and can be played on a mobile browser. I've added onscreen buttons that can be toggled on/off.
 
 ## How to run
-Being a complete fron-end application, the game can be run on any web broswer.
+Being a complete front-end application, the game can be run on any web broswer.
 
 Check out the live game here: https://sid-s-r.github.io/Space-Impact-Web/
 
