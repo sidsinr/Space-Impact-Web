@@ -2,6 +2,8 @@
 ## Introduction
 This project is the web version of Nokia 3310's classic game "Space Impact". A 2D shooter game, in which the player flies a spaceship and destroys incoming swarms of enemies spanning across 8 levels. Each level at the end has its own level boss. 
 
+### [Live Demo](https://sidsinr.github.io/Space-Impact-Web)
+
 The objective of the game is to survive and beat the final boss. 
 
 The player has unlimited ammo for the normal bullets. The player also gets one of the three types of different special attacks namely; homing missiles, laser gun and laser wall. These special attacks are limited and can only be replenished from the powerup picked up during a level. The powerup can also provide an extra life.
@@ -11,12 +13,15 @@ There is also an option to pause the game during the gameplay.
 
 The game is responsive and can be played on a mobile browser. I've added onscreen buttons that can be toggled on/off.
 
+<img src="https://user-images.githubusercontent.com/118676744/224075764-5aaaa42c-de44-4819-afc2-670898da26ff.png" height=70% width=70%/>
+<img src="https://user-images.githubusercontent.com/118676744/224077456-e5bc182b-3534-45e7-8c9c-4390fb63949e.png" height=70% width=70%/>
+<img src="https://user-images.githubusercontent.com/118676744/224077845-b67fc1f2-04bc-4ef4-b4f2-d01a72d24f1b.png" height="422" width="195"/>
+
 ## How to run
 Being a complete front-end application, the game can be run on any web broswer.
 
-Check out the live game here: https://sidsinr.github.io/Space-Impact-Web/
-
 Or, download the files and run the **index.html** file in any of the browser. Just make sure the file paths remains the same.
+
 
 ## Software Tools Used
 - Adobe Photoshop, to create all the game assets.
