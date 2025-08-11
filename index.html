@@ -25,8 +25,14 @@
     </div>
     <div class="toggle-container">
         <span>On-screen Buttons:</span>
-        <div class="toggle">
-            <div class="toggle-ball"></div>
+        <div class="toggle" id="onscreen-buttons">
+            <div class="toggle-ball" id="onscreen-buttons-ball"></div>
+        </div>
+    </div>
+    <div class="toggle-container">
+        <span>Autoshoot:</span>
+        <div class="toggle" id="autoshoot">
+            <div class="toggle-ball" id="autoshoot-ball"></div>
         </div>
     </div>
     <div id="info">
@@ -50,22 +56,26 @@
     </div>
     <div class="buttons-onscreen" oncontextmenu="return false">
         <button type="button" id="button-left" class="button"><img src="./img/buttonLeft.png" alt=""></button>
+        <button type="button" id="button-upleft" class="button"><img src="./img/buttonDiagonal2.png" alt=""></button>
         <button type="button" id="button-up" class="button"><img src="./img/buttonUp.png" alt=""></button>
+        <button type="button" id="button-upright" class="button"><img src="./img/buttonDiagonal1.png" alt=""></button>
         <button type="button" id="button-right" class="button"><img src="./img/buttonRight.png" alt=""></button>
+        <button type="button" id="button-downright" class="button"><img src="./img/buttonDiagonal2.png" alt=""></button>
         <button type="button" id="button-down" class="button"><img src="./img/buttonDown.png" alt=""></button>
+        <button type="button" id="button-downleft" class="button"><img src="./img/buttonDiagonal1.png" alt=""></button>
         <button type="button" id="button-fire" class="button"><img src="./img/buttonFire.png" alt=""></button>
         <button type="button" id="button-x" class="button"><img src="./img/buttonX.png" alt=""></button>
     </div>
 
     <script>
-        const toggleBar = document.querySelector(".toggle");
-        const toggleBall = document.querySelector(".toggle-ball");
+        const onscreenButtons = document.querySelector(".toggle#onscreen-buttons");
+        const onscreenButtonsBall = document.querySelector(".toggle-ball#onscreen-buttons-ball");
         const buttons = document.querySelector(".buttons-onscreen");
         const info = document.querySelector("#info");
         let flag = false;
-        toggleBar.addEventListener("click", () => {
-            toggleBar.classList.toggle("toggle-on");
-            toggleBall.classList.toggle("toggle-ball-on");
+        onscreenButtons.addEventListener("click", () => {
+            onscreenButtons.classList.toggle("toggle-on");
+            onscreenButtonsBall.classList.toggle("toggle-ball-on");
             flag = !flag;
             if (flag) {
                 buttons.style.display = "inline-block";
@@ -74,6 +84,12 @@
                 buttons.style.display = "none";
                 info.style.display = "inline-block";
             }
+        });
+        const autoshoot = document.querySelector(".toggle#autoshoot");
+        const autoshootBall = document.querySelector(".toggle-ball#autoshoot-ball");
+        autoshoot.addEventListener("click", () => {
+            autoshoot.classList.toggle("toggle-on");
+            autoshootBall.classList.toggle("toggle-ball-on");
         });
     </script>
 
