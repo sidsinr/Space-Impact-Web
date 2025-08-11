@@ -187,9 +187,19 @@ canvas {
     left: 10px;
     bottom: 120px;
 }
+#button-upleft{
+    position: absolute;
+    left: 10px;
+    bottom: 180px;
+}
 #button-up{
     position: absolute;
     left: 70px;
+    bottom: 180px;
+}
+#button-upright{
+    position: absolute;
+    left: 130px;
     bottom: 180px;
 }
 #button-right{
@@ -197,9 +207,19 @@ canvas {
     left: 130px;
     bottom: 120px;
 }
+#button-downright{
+    position: absolute;
+    left: 130px;
+    bottom: 60px;
+}
 #button-down{
     position: absolute;
     left: 70px;
+    bottom: 60px;
+}
+#button-downleft{
+    position: absolute;
+    left: 10px;
     bottom: 60px;
 }
 #button-fire{
@@ -241,16 +261,32 @@ canvas {
         left: 10px;
         bottom: 110px;
     }
+    #button-upleft{
+        left: 10px;
+        bottom: 160px;
+    }
     #button-up{
         left: 60px;
+        bottom: 160px;
+    }
+    #button-upright{
+        left: 110px;
         bottom: 160px;
     }
     #button-right{
         left: 110px;
         bottom: 110px;
     }
+    #button-downright{
+        left: 110px;
+        bottom: 60px;
+    }
     #button-down{
         left: 60px;
+        bottom: 60px;
+    }
+    #button-downleft{
+        left: 10px;
         bottom: 60px;
     }
 }

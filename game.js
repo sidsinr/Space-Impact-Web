@@ -8,12 +8,21 @@ mainCanvas.height = 480;
 bgCanvas.width = 840;
 bgCanvas.height = 480;
 
-const buttonUp = document.getElementById("button-up");
-const buttonDown = document.getElementById("button-down");
-const buttonLeft = document.getElementById("button-left");
-const buttonRight = document.getElementById("button-right");
+const directionalButtons = {
+    buttonLeft: document.getElementById("button-left"),
+    buttonUpLeft: document.getElementById("button-upleft"),
+    buttonUp: document.getElementById("button-up"),
+    buttonUpRight: document.getElementById("button-upright"),
+    buttonRight: document.getElementById("button-right"),
+    buttonDownRight: document.getElementById("button-downright"),
+    buttonDown: document.getElementById("button-down"),
+    buttonDownLeft: document.getElementById("button-downleft")
+}
+
 const buttonFire = document.getElementById("button-fire");
 const buttonX = document.getElementById("button-x");
+const autoshootToggle = document.querySelector(".toggle#autoshoot");
+const autoshootFrenquency = 10; //Set rate of shooting
 
 const mainSprites = new Image();
 mainSprites.src = "./img/gameSprites.png";
@@ -62,35 +71,45 @@ let specialCount = 3;
 let lives = 4;
 const maxLives = 7;
 let playerScore = 0;
+let currentLevelActive = false; //somehow in touch events handlers level.active stay at false even when a new level start. I don't understand the issue in details, but it's scope related. Using this var fix the issue.
 
 class InputHandler {
     constructor(level) {
         this.level = level;
+        
         // keyboard events
         window.addEventListener("keydown", (e) => {
-            e.preventDefault();  //prevents the page scrolling
             if (gameOver || !level.active || gamePause) return;
             switch (e.key) {
                 case "ArrowLeft":
+                    e.preventDefault();  //prevents the page scrolling
                     keys.ArrowLeft.pressed = true;
                     break;
                 case "ArrowRight":
+                    e.preventDefault();  //prevents the page scrolling
                     keys.ArrowRight.pressed = true;
                     break;
                 case "ArrowUp":
+                    e.preventDefault();  //prevents the page scrolling
                     keys.ArrowUp.pressed = true;
                     break;
                 case "ArrowDown":
+                    e.preventDefault();  //prevents the page scrolling
                     keys.ArrowDown.pressed = true;
                     break;
                 case " ":
+                    e.preventDefault();  //prevents the page scrolling
                     if (!keys.space.pressed) {
-                        this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                        let AutoshootIsActivated = autoshootToggle.classList.contains("toggle-on");
+                        if (!AutoshootIsActivated) {
+                            this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                        }
                         keys.space.pressed = true;
                     }
                     break;
                 case "X":
                 case "x":
+                    e.preventDefault();  //prevents the page scrolling
                     if (!keys.x.pressed) {
                         if (specialCount > 0) {
                             switch (specialAtttack) {
@@ -131,66 +150,215 @@ class InputHandler {
                     break;
             }
         });
-
+        
         // onscreen-buttons events
-        buttonLeft.addEventListener("pointerdown", ()=>{
+        document.addEventListener("touchmove", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) {
+                resetDirections();
+                return;
+            }
+            const touch = ev.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            switch (target.parentNode) {
+                case directionalButtons.buttonLeft: 
+                    resetDirections();
+                    keys.ArrowLeft.pressed = true;
+                    break;
+                case directionalButtons.buttonUpLeft:
+                    resetDirections();
+                    keys.ArrowUp.pressed = true;
+                    keys.ArrowLeft.pressed = true;
+                    break;
+                case directionalButtons.buttonUp:
+                    resetDirections();
+                    keys.ArrowUp.pressed = true;
+                    break;
+                case directionalButtons.buttonUpRight:
+                    resetDirections();
+                    keys.ArrowUp.pressed = true;
+                    keys.ArrowRight.pressed = true;
+                    break;
+                case directionalButtons.buttonRight:
+                    resetDirections();
+                    keys.ArrowRight.pressed = true;
+                    break;
+                case directionalButtons.buttonDownRight:
+                    resetDirections();
+                    keys.ArrowDown.pressed = true;
+                    keys.ArrowRight.pressed = true;
+                    break;
+                case directionalButtons.buttonDown:
+                    resetDirections();
+                    keys.ArrowDown.pressed = true;
+                    break;
+                case directionalButtons.buttonDownLeft:
+                    resetDirections();
+                    keys.ArrowDown.pressed = true;
+                    keys.ArrowLeft.pressed = true;
+                    break;
+            }
+        }, { passive: false })
+
+        //Handle all events needing a reset of arrows pressed.
+        Object.values(directionalButtons).forEach(button => {
+            button.addEventListener("touchend", ()=>{
+                resetDirections();
+            });
+            button.addEventListener("pointerup", ()=>{
+                resetDirections();
+            });
+            button.addEventListener("pointerout", ()=>{
+                resetDirections();
+            });
+        });
+
+        directionalButtons.buttonLeft.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowLeft.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonLeft.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowLeft.pressed = true;
         })
-        buttonLeft.addEventListener("pointerup", ()=>{
-            keys.ArrowLeft.pressed = false;
-        })
-        buttonLeft.addEventListener("pointerout", ()=>{
-            keys.ArrowLeft.pressed = false;
-        })
 
-        buttonRight.addEventListener("pointerdown", ()=>{
+        directionalButtons.buttonUpLeft.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowUp.pressed = true;
+            keys.ArrowLeft.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonUpLeft.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
-            keys.ArrowRight.pressed = true;
-        })
-        buttonRight.addEventListener("pointerup", ()=>{
-            keys.ArrowRight.pressed = false;
-        })
-        buttonRight.addEventListener("pointerout", ()=>{
-            keys.ArrowRight.pressed = false;
+            keys.ArrowUp.pressed = true;
+            keys.ArrowLeft.pressed = true;
         })
 
-        buttonUp.addEventListener("pointerdown", ()=>{
+        directionalButtons.buttonUp.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowUp.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonUp.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowUp.pressed = true;
         })
-        buttonUp.addEventListener("pointerup", ()=>{
-            keys.ArrowUp.pressed = false;
+
+        directionalButtons.buttonUpRight.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowUp.pressed = true;
+            keys.ArrowRight.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonUpRight.addEventListener("pointerdown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowUp.pressed = true;
+            keys.ArrowRight.pressed = true;
         })
-        buttonUp.addEventListener("pointerout", ()=>{
-            keys.ArrowUp.pressed = false;
+        
+        directionalButtons.buttonRight.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowRight.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonRight.addEventListener("pointerdown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowRight.pressed = true;
         })
 
-        buttonDown.addEventListener("pointerdown", ()=>{
+        directionalButtons.buttonDownRight.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowDown.pressed = true;
+            keys.ArrowRight.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonDownRight.addEventListener("pointerdown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowDown.pressed = true;
+            keys.ArrowRight.pressed = true;
+        })
+
+        directionalButtons.buttonDown.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowDown.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonDown.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             keys.ArrowDown.pressed = true;
         })
-        buttonDown.addEventListener("pointerup", ()=>{
-            keys.ArrowDown.pressed = false;
+
+        directionalButtons.buttonDownLeft.addEventListener("touchstart", ev => {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            keys.ArrowDown.pressed = true;
+            keys.ArrowLeft.pressed = true;
+        }, { passive: false })
+        directionalButtons.buttonDownLeft.addEventListener("pointerdown", ()=>{
+            if (gameOver || !level.active || gamePause) return;
+            keys.ArrowDown.pressed = true;
+            keys.ArrowLeft.pressed = true;
         })
-        buttonDown.addEventListener("pointerout", ()=>{
-            keys.ArrowDown.pressed = false;
-        })
+        
         // firing button events
+        buttonFire.addEventListener("touchstart", ev=>{
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            if (!keys.space.pressed) {
+                let AutoshootIsActivated = autoshootToggle.classList.contains("toggle-on");
+                if (!AutoshootIsActivated) {
+                    this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                }
+                keys.space.pressed = true;
+            }
+        }, { passive: false })
         buttonFire.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             if (!keys.space.pressed) {
-                this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                let AutoshootIsActivated = autoshootToggle.classList.contains("toggle-on");
+                if (!AutoshootIsActivated) {
+                    this.level.playerProjectiles.push(new Projectile(true, this.level.player));
+                }
                 keys.space.pressed = true;
             }
+        })
+        buttonFire.addEventListener("touchend", ()=>{
+            keys.space.pressed = false;
         })
         buttonFire.addEventListener("pointerup", ()=>{
             keys.space.pressed = false;
         })
-        buttonFire.addEventListener("pointerout", ()=>{
-            keys.space.pressed = false;
-        })
 
+        buttonX.addEventListener("touchstart", ev=>{
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            if (gameOver || !currentLevelActive || gamePause) return;
+            if (!keys.x.pressed) {
+                if (specialCount > 0) {
+                    switch (specialAtttack) {
+                        case "missile": this.level.playerSpecial.push(new Missile(this.level));
+                            break;
+                        case "laser": this.level.playerSpecial.push(new Laser(this.level));
+                            break;
+                        case "wall": this.level.playerSpecial.push(new Wall(this.level));
+                            break;
+                    }
+                    specialCount--;
+                }
+                keys.x.pressed = true;
+            }
+        }, { passive: false })
         buttonX.addEventListener("pointerdown", ()=>{
             if (gameOver || !level.active || gamePause) return;
             if (!keys.x.pressed) {
@@ -208,10 +376,10 @@ class InputHandler {
                 keys.x.pressed = true;
             }
         })
-        buttonX.addEventListener("pointerup", ()=>{
+        buttonX.addEventListener("touchend", ()=>{
             keys.x.pressed = false;
         })
-        buttonX.addEventListener("pointerout", ()=>{
+        buttonX.addEventListener("pointerup", ()=>{
             keys.x.pressed = false;
         })
     }
@@ -1587,6 +1755,8 @@ class Level {
         this.flag = true;     // prevents index overflow of enemy array
         this.bgStop = false;  // stops background
         this.levelComplete = false;
+        this.autoshootStatus = 0;
+        currentLevelActive = this.active;
 
         // create background and assigns enemy array of the current level
         switch (this.number) {
@@ -1618,6 +1788,17 @@ class Level {
     update(deltaTime) {
         // ui draw
         this.ui.draw();
+        
+        // autoshoot
+        let AutoshootIsActivated = autoshootToggle.classList.contains("toggle-on");
+        if (AutoshootIsActivated && !this.levelComplete) {
+            if (this.autoshootStatus == autoshootFrenquency) {
+                this.autoshootStatus = 0;
+                this.playerProjectiles.push(new Projectile(true, this.player));
+            } else {
+                this.autoshootStatus++;
+            }
+        }
 
         // player update
         if (!this.player.delete) this.player.update(deltaTime);
@@ -1851,6 +2032,7 @@ class Level {
         //level complete;
         if (this.levelComplete) {
             this.active = false;
+            currentLevelActive = this.active;
             if (this.number != 5 && this.number != 6) {
                 if (this.player.y <= 55) this.player.x += 5;
                 else this.player.y -= 2;
@@ -2935,6 +3117,14 @@ function animate(timestamp) {
     }
 
     requestAnimationFrame(animate);
+}
+
+//Reset all directions to avoid conflicts in onscreen buttons event handling.
+function resetDirections() {
+    keys.ArrowLeft.pressed = false;
+    keys.ArrowRight.pressed = false;
+    keys.ArrowUp.pressed = false;
+    keys.ArrowDown.pressed = false;
 }
 animate(0);
 
